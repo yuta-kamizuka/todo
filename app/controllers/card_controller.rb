@@ -1,4 +1,7 @@
 class CardController < ApplicationController
+
+  before_action :set_card, only: [:show, :edit, :update]
+
   def new
     @card = Card.new
     @list = List.find_by(params[:id])
@@ -14,7 +17,17 @@ class CardController < ApplicationController
   end
 
   def show
-    @card = Card.find(params[:id])
+  end
+
+  def edit
+  end
+
+  def update
+    if @card.update_attributes(card_params)
+      redirect_to :root
+    else
+      render::edit
+    end
   end
 
   private
@@ -25,6 +38,10 @@ class CardController < ApplicationController
         :memo,
         :list_id
       )
+    end
+
+    def set_card
+      @card = Card.find(params[:id])
     end
 
 end
